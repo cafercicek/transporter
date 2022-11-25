@@ -1,0 +1,327 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+
+namespace Transporter6
+{
+    internal static class Program
+    {
+        private static void Main(string[] args)
+        {
+            
+            var lines = GetAllLinesFromFile();
+            var listOfCities = FillListOfCities(lines);
+            var listOfTrucks = FillListOfTrucks(listOfCities);
+            WriteAllTrucks(listOfTrucks);
+            
+            
+            var company = new Company
+            {
+                Name = GetANameForCompanyOnConsole()
+            };
+            
+            OpenTheMenu(company,listOfTrucks);
+            
+        }
+
+        private static void OpenTheMenu(Company company,List<Truck> listOfTrucks)
+        {
+            var today = DateTime.Now;
+            var deliveryDayDisplay = today.ToString("dd.MM.yyyy");
+            do
+            {
+                Console.WriteLine($"{company.Name} | {company.Amount:0.00}  EUR | " +
+                                  $"{deliveryDayDisplay} | {company.GetCountOfOwnTrucks()} | " +
+                                  $"{company.GetCountOfOwnDrivers()} | {company.GetCountOfOwnJobs()}");
+                Console.WriteLine("1. LKW kaufen");
+                Console.WriteLine("2. Fahrer einstellen");
+                Console.WriteLine("3. Aufträge annehmen");
+                Console.WriteLine("4. Runde beenden");
+
+                ConsoleKeyInfo key;
+                do
+                {
+                    key = Console.ReadKey(true);
+                } while (key.KeyChar != '1'
+                         && key.KeyChar != '2'
+                         && key.KeyChar != '3'
+                         && key.KeyChar != '4'
+                        );
+
+                Console.WriteLine("gedruct: " + key.KeyChar);
+                Console.ReadKey(true);
+
+                if (key.KeyChar == '1')
+                {
+                    BuyATruck(company,listOfTrucks);
+                }
+                if (key.KeyChar == '4')
+                {
+                    break;
+                }
+
+                Console.Clear();
+            } while (true);
+        }
+
+        private static void BuyATruck(Company company,List<Truck> listOfTrucks)
+        {
+            WriteAllTrucks(listOfTrucks);
+            Console.WriteLine("Kaufe einen LKW mit 1-8 ider kehre mit z");
+            
+            
+            
+            do
+            {
+                ConsoleKeyInfo key;
+                int chooseOfCompany;
+                do
+                {
+                    key = Console.ReadKey(true);
+                    chooseOfCompany = int.Parse(key.KeyChar.ToString());
+                    
+                } while (key.KeyChar != '1'
+                         && key.KeyChar != '2'
+                         && key.KeyChar != '3'
+                         && key.KeyChar != '4'
+                         && key.KeyChar != '5'
+                         && key.KeyChar != '6'
+                         && key.KeyChar != '7'
+                         && key.KeyChar != '8'
+                         && key.KeyChar != 'z'
+                        );
+
+                Console.WriteLine("gedruct: " + key.KeyChar);
+                Console.ReadKey(true);
+
+                if (key.KeyChar == 'z')
+                {
+                    OpenTheMenu(company,listOfTrucks);
+                }
+                else
+                {
+                    //chooseOfCompany = int.Parse(key.KeyChar.ToString());
+                    var truck=listOfTrucks.Find(g => g.IdNumber == chooseOfCompany);
+                    company.Amount -= truck.Price;
+                    company.ListOfOwnTrucks.Add(truck);
+                    listOfTrucks.RemoveAt(chooseOfCompany-1);
+                    //Console.WriteLine(truck.IdNumber + " " + truck.Type);
+                    OpenTheMenu(company,listOfTrucks);
+                }
+            } while (true);
+            
+            
+            
+            
+        }
+
+        private static string GetANameForCompanyOnConsole()
+        {
+            Console.Write("Wie ist der Name der Firma? ");
+            string inputValue;
+            while (string.IsNullOrEmpty(inputValue = Console.ReadLine()))
+            {
+                Console.WriteLine("Input is invalid");
+            }
+
+            return inputValue;
+        }
+        
+        
+        
+        
+        
+        private static void WriteAllTrucks(List<Truck> listOfTrucks)
+        {
+            foreach (var truck in listOfTrucks)
+            {
+                var displayYear = truck.Year == 0 ? "-neu-" : Convert.ToString(truck.Year);
+                Console.WriteLine($"{truck.IdNumber} {truck.Type}, " +
+                                  $"{displayYear} Jahre, {truck.PowerInkW} kW, " +
+                                  $"{truck.MaxLoad} T, {truck.FuelEfficiencyDivideBy100Km} L, " +
+                                  $"{truck.City.Name}, {truck.Price:0.00} EUR");
+            }
+        }
+
+        private static List<Truck> FillListOfTrucks(List<City> listOfCities)
+        {
+            return Enumerable.Range(0, 8).Select(_ => CreateATruck(listOfCities)).ToList();
+        }
+
+
+        private static Truck CreateATruck(List<City> listOfCities)
+        {
+            var truck = new Truck
+            {
+                Type = GetTypeForTruck(),
+                City = GetCityForTruck(listOfCities),
+                Year = GetYearForTruck(),
+                PowerInkW = GetPower()
+            };
+            truck.CallTheSize();
+            FindMaxLoad(truck);
+            FindFuelEfficiency(truck);
+            CalculatePriceOfTrucks(truck);
+            return truck;
+        }
+
+
+        private static void FindMaxLoad(Truck truck)
+        {
+            var table = MakeATableOfLoading();
+            var filteredRows = table.Select("Type LIKE '%" + truck.Type + "%'");
+            var matchLoad = filteredRows[0][truck.Size];
+            truck.MaxLoad = Convert.ToInt32(matchLoad);
+        }
+
+        private static DataTable MakeATableOfLoading()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Type", typeof(string));
+            table.Columns.Add("Klein", typeof(int));
+            table.Columns.Add("Medium", typeof(int));
+            table.Columns.Add("Gross", typeof(int));
+            table.Columns.Add("Riesig", typeof(int));
+
+            table.Rows.Add("Pritschenwagen", 4, 6, 7, 10);
+            table.Rows.Add("Tanklaster", 2, 4, 8, 10);
+            table.Rows.Add("Kühllastwagen", 3, 4, 5, 6);
+            return table;
+        }
+
+        private static void FindFuelEfficiency(Truck truck)
+        {
+            var table = MakeATableOfFuelEfficiency();
+            var filteredRows = table.Select("Type LIKE '%" + truck.Type + "%'");
+            var matchLoad = filteredRows[0][truck.Size];
+            var howMany3Year = truck.Year % 3;
+            truck.FuelEfficiencyDivideBy100Km = Convert.ToInt32(matchLoad) + howMany3Year;
+        }
+
+        private static DataTable MakeATableOfFuelEfficiency()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Type", typeof(string));
+            table.Columns.Add("Klein", typeof(int));
+            table.Columns.Add("Medium", typeof(int));
+            table.Columns.Add("Gross", typeof(int));
+            table.Columns.Add("Riesig", typeof(int));
+
+            table.Rows.Add("Pritschenwagen", 10, 12, 16, 22);
+            table.Rows.Add("Tanklaster", 14, 18, 20, 30);
+            table.Rows.Add("Kühllastwagen", 14, 18, 20, 30);
+            return table;
+        }
+
+        private static void CalculatePriceOfTrucks(Truck truck)
+        {
+            var table = MakeATableOfBasicPrice();
+            var filteredRows = table.Select("Size LIKE '%" + truck.Size + "%'");
+            var priceFactor = CalculatePriceOfFactor(truck);
+            var matchBasicPrice = filteredRows[0]["BasicPreise"];
+            truck.Price = priceFactor * (double)matchBasicPrice;
+            if (truck.Type == "Kühllastwagen") truck.Price *= 1.1;
+        }
+
+        private static double CalculatePriceOfFactor(Truck truck)
+        {
+            var rand = new Random();
+            var randomNumber = rand.Next(-20, 30);
+            return (1 + randomNumber / 100.0) - truck.Year * 0.03;
+        }
+
+        private static DataTable MakeATableOfBasicPrice()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Size", typeof(string));
+            table.Columns.Add("BasicPreise", typeof(double));
+
+            table.Rows.Add("Klein", 25000);
+            table.Rows.Add("Medium", 65000);
+            table.Rows.Add("Gross", 80000);
+            table.Rows.Add("Riesig", 120000);
+            return table;
+        }
+
+        private static int GetPower()
+        {
+            var rand = new Random();
+            return rand.Next(10, 81);
+        }
+
+        private static int GetYearForTruck()
+        {
+            var rand = new Random();
+            return rand.Next(0, 11);
+        }
+
+        private static City GetCityForTruck(IReadOnlyList<City> listOfCities)
+        {
+            var rand = new Random();
+            return listOfCities[rand.Next(0, listOfCities.Count)];
+        }
+
+        private static string GetTypeForTruck()
+        {
+            var typeForTruck = new List<string>
+            {
+                "Kühllastwagen",
+                "Pritschenwagen",
+                "Tanklaster"
+            };
+            return TakeARandomText(typeForTruck);
+        }
+
+
+        private static string TakeARandomText(IReadOnlyList<string> listOfText)
+        {
+            var rand = new Random();
+            return listOfText[rand.Next(0, listOfText.Count)];
+        }
+
+        private static string[] GetAllLinesFromFile()
+        {
+            var currentPath = CreateCurrentPath();
+            var pathOfFile = AddPathOfFile(currentPath);
+            var lines = ReadAllLines(pathOfFile);
+            return lines;
+        }
+
+        private static string[] ReadAllLines(string pathOfFile)
+        {
+            return File.ReadAllLines(pathOfFile);
+        }
+
+        private static string AddPathOfFile(FileSystemInfo currentPath)
+        {
+            return currentPath.FullName + "\\cities.txt";
+        }
+
+        private static DirectoryInfo CreateCurrentPath()
+        {
+            return new DirectoryInfo("../../../");
+        }
+
+
+        private static List<City> FillListOfCities(string[] lines)
+        {
+            return lines.Select(line => line.Split(" ")).Select(partOfLine =>
+                CreateACity(partOfLine[0], Convert.ToInt32(partOfLine[3]),
+                    Convert.ToInt32(partOfLine[6]))).ToList();
+        }
+
+        private static City CreateACity(string name, int xEasting, int yNorthing)
+        {
+            var city = new City()
+            {
+                Name = name,
+                XEasting = xEasting,
+                YNorthing = yNorthing
+            };
+            return city;
+        }
+        
+    }
+}

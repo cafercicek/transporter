@@ -1,0 +1,8 @@
+﻿Amsterdam = Easting: 868851 / Northing: 297477
+Berlin = Easting: 1442341 / Northing: 404144
+Esslingen = Easting: 1232391 / Northing: -71899
+Rom = Easting: 1605258 / Northing: -786717
+Lissabon = Easting: -220417 / Northing: -1218006
+Istanbul = Easting: 3015490 / Northing: -498084
+Aarhus = Easting: 1156381 / Northing: 763352
+Tallinn = Easting: 1889074 / Northing: 1368933
