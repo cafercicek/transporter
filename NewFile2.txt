@@ -1,0 +1,50 @@
+﻿############################################################################
+
+US1 – Fahrer Zuordnen
+Als Firmengründer möchte ich eine neue Menüoption, damit ich einem LKW einen Fahrer zuordnen kann.
+
+Akzeptanzkriterien:
+• Die allen LKWs der Firma werden tabellarisch angezeigt.
+• Ein LKW sollte gewählt werden.
+• Der gewählte LKW sollte keinen Fahrer haben.
+• Die allen Fahrern der Firma werden tabellarisch angezeigt.
+• Ein Fahrer sollte gewählt werden.
+• Der Fahrzeugtyp sollte zum Fahrern passen.
+• Der Fahrer sollte nur einem LKW zugeordnet werden.
+
+############################################################################
+
+US2 – LKW Bewegen
+Als Firmengründer möchte ich einen LKW zu einer Stadt senden, damit ich Auftragen erledigen kann. 
+Dafür möchte ich eine neue Menüoption.
+
+Akzeptanzkriterien:
+• Die allen LKWs der Firma werden tabellarisch angezeigt.
+• Ein LKW sollte gewählt werden.
+• Der gewählte LKW sollte nicht unterwegs sein.
+• Die Städte werden tabellarisch angezeigt.
+• Eine Stadt kann gewählt werden.
+• Die gewählte Stadt sollte keine Stadt sein, wo der LKW  aktuelle ist.
+• Weg zwischen zwei Städte sollte aus der Vogelperspektive berechnet werden.* 
+• Die Fahrdauer als Tag wird berechnet. Fahrer sollte 300 km pro Tag fahren.
+• Die Fahrdauer als Tag sollte in der Tabelle von den LKW hinzugefügt werden.
+
+*(sqrt(power(x1-x2) + power(y1-y2)))
+
+############################################################################
+
+US3 – Auftrag Übernehmen
+Als Firmengründer möchte ich eine Ware zu einem LKW einstellen, damit ich Auftragen erledigen kann 
+und übernehmen kann. Dafür möchte ich eine neue Menüoption.
+
+Akzeptanzkriterien:
+• Die allen unseren LKWs werden tabellarisch angezeigt.
+• Ein LKW sollte gewählt werden.
+• Der LKW sollte die Kapazität haben.
+• Die Aufträge werden tabellarisch angezeigt.
+• Ein Auftrag kann gewählt werden.
+• Der LKW sollte an der Stadt, wo die Ware von dem Auftrag befindet, sein.
+• Der Fahrzeugtyp sollte zum zur transportierenden Ware passen.
+• Die Kapazität des LKW sollte zum zur transportierenden Ware passen.
+
+############################################################################

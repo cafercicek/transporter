@@ -24,7 +24,7 @@ namespace Transporter6
         {
             var lines = GetAllLinesFromFile();
             
-            return Enumerable.Range(0, 5).Select(_ => CreateADriver(lines)).ToList();
+            return Enumerable.Range(0, ConfigParameter.DriverGenerateNumber).Select(_ => CreateADriver(lines)).ToList();
         }
 
         public static Driver CreateADriver(string[] lines)
@@ -36,6 +36,7 @@ namespace Transporter6
                 ClassificationOfDriver = GetClassificationForDriver(),
                 Salary = GetRandomSalary()
             };
+            driver.ClassificationOfDriverText = ConfigParameter.DriverClassificationText[driver.ClassificationOfDriver];
             return driver;
         }        
   
@@ -47,14 +48,22 @@ namespace Transporter6
             return chosenText;
         }
 
-        public static string TakeARandomText(IReadOnlyList<string> listOfText)
+        private static string TakeARandomText(IReadOnlyList<string> listOfText)
         {
             var rand = new Random();
             
             return listOfText[rand.Next(0, listOfText.Count)];
         }
 
-        public static List<string> FillListOfVocables(string[] lines, int indexOfVocable)
+
+        private static DriverClassification TakeARandomText(IReadOnlyList<DriverClassification> listOfText)
+        {
+            var rand = new Random();
+            
+            return listOfText[rand.Next(0, listOfText.Count)];
+        }
+
+        private static List<string> FillListOfVocables(string[] lines, int indexOfVocable)
         {
             var listOfText = new List<string>();
             foreach (string line in lines)
@@ -65,24 +74,22 @@ namespace Transporter6
 
             return listOfText;
         }
-
-
-        public static string GetClassificationForDriver()
+        
+        public static DriverClassification GetClassificationForDriver()
         {
-            var classificationsOfDrivers = new List<string>
+            var classificationsOfDrivers = new List<DriverClassification>
             {
-                "Rennfahrer",
-                "Verträumt",
-                "Liebt seinen Job",
-                "Unauffällig"
+                DriverClassification.ClassificationRacingDriver,
+                DriverClassification.ClassificationDreamyDriver,
+                DriverClassification.ClassificationHardDriver,
+                DriverClassification.ClassificationGhostDriver
             };
             return TakeARandomText(classificationsOfDrivers);
         }
-
         public static int GetRandomSalary()
         {
             var rand = new Random();
-            return rand.Next(2000, 5000);
+            return rand.Next(ConfigParameter.LessRandomSalaryOfDrivers,  ConfigParameter.HighestRandomSalaryOfDrivers);
         }
 
         public static string[] ReadAllLines(string pathOfFile)
@@ -99,7 +106,6 @@ namespace Transporter6
         {
             return new DirectoryInfo("../../../");
         }
-
 
     }
 }

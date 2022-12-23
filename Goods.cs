@@ -5,9 +5,10 @@ namespace Transporter6
     public class Goods
     {
         internal string Name { set; get; }
-        internal Truck Truck { set; get; }
+        internal Truck SuitableTruck { set; get; }
         internal int  MaxWeight { set; get; }
         internal int  Weight { set; get; }
+        internal bool CheckTruck { set; get; } = false;
         public static int IdentificationNumberCounter = 1;
         internal  int IdNumber;
         internal City StartPoint { set; get; }
@@ -25,27 +26,28 @@ namespace Transporter6
         public Cigarette()
         {
             Name="Zigaretten";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Pritschenwagen"
+                Type =  TruckType.TruckTypeFlatbedTruck
             };
-            MaxWeight = 10;
-            MaxDay = 20;
-            MinPrice = 100;
-        }
+            MaxWeight = ConfigParameter.ConstMaxWeightForCigarette;
+            MaxDay = ConfigParameter.ConstMaxDayForCigarette;
+            MinPrice = ConfigParameter.ConstMinPriceForCigarette;
+            
+    }
     }
     public class Textile :Goods
     {
         public Textile()
         {
             Name="Textilien";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Pritschenwagen"
+                Type =  TruckType.TruckTypeFlatbedTruck
             };
-            MaxWeight = 10;
-            MaxDay = 20;
-            MinPrice = 50;
+            MaxWeight = ConfigParameter.ConstMaxWeightForTextile;
+            MaxDay = ConfigParameter.ConstMaxDayForTextile;
+            MinPrice = ConfigParameter.ConstMinPriceForTextile;
         }
     }
     public class Chocolate  :Goods
@@ -53,13 +55,13 @@ namespace Transporter6
         public Chocolate()
         {
             Name="Schokolade";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Pritschenwagen"
+                Type = TruckType.TruckTypeFlatbedTruck
             };
-            MaxWeight = 10;
-            MaxDay = 10;
-            MinPrice = 120;
+            MaxWeight = ConfigParameter.ConstMaxWeightForChocolate;
+            MaxDay = ConfigParameter.ConstMaxDayForChocolate;
+            MinPrice = ConfigParameter.ConstMinPriceForChocolate;
         }
 
     }
@@ -68,13 +70,13 @@ namespace Transporter6
         public Fruit()
         {
             Name="Früchte";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Kühllastwagen"
+                Type =  TruckType.TruckTypeRefrigeratedTruck
             };
-            MaxWeight = 6;
-            MaxDay = 14;
-            MinPrice = 150;
+            MaxWeight = ConfigParameter.ConstMaxWeightForFruit;
+            MaxDay = ConfigParameter.ConstMaxDayForFruit;
+            MinPrice = ConfigParameter.ConstMinPriceForFruit;
         }
 
     }
@@ -83,13 +85,13 @@ namespace Transporter6
         public IceCream()
         {
             Name="Eiscreme";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Kühllastwagen"
+                Type =  TruckType.TruckTypeRefrigeratedTruck
             };
-            MaxWeight = 6;
-            MaxDay = 10;
-            MinPrice = 180;
+            MaxWeight = ConfigParameter.ConstMaxWeightForIceCream;
+            MaxDay = ConfigParameter.ConstMaxDayForIceCream;
+            MinPrice = ConfigParameter.ConstMinPriceForIceCream;
         }
 
     }
@@ -98,13 +100,13 @@ namespace Transporter6
         public Meat()
         {
             Name="Fleisch";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Kühllastwagen"
+                Type =  TruckType.TruckTypeRefrigeratedTruck
             };
-            MaxWeight = 6;
-            MaxDay = 14;
-            MinPrice = 130;
+            MaxWeight = ConfigParameter.ConstMaxWeightForMeat;
+            MaxDay = ConfigParameter.ConstMaxDayForMeat;
+            MinPrice = ConfigParameter.ConstMinPriceForMeat;
         }
 
     }
@@ -113,13 +115,14 @@ namespace Transporter6
         public Crude()
         {
             Name="Rohoel";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Tanklaster"
+                Type = TruckType.TruckTypeTanker
             };
-            MaxWeight = 10;
-            MaxDay = 14;
-            MinPrice = 120;
+            MaxWeight = ConfigParameter.ConstMaxWeightForCrude;
+            MaxDay = ConfigParameter.ConstMaxDayForCrude;
+            MinPrice = ConfigParameter.ConstMinPriceForCrude;
+            
         }
 
     }
@@ -128,13 +131,14 @@ namespace Transporter6
         public Fuel()
         {
             Name="Heizoel";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Tanklaster"
+                Type = TruckType.TruckTypeTanker
             };
-            MaxWeight = 10;
-            MaxDay = 25;
-            MinPrice = 90;
+            
+            MaxWeight = ConfigParameter.ConstMaxWeightForFuel;
+            MaxDay = ConfigParameter.ConstMaxDayForFuel;
+            MinPrice = ConfigParameter.ConstMinPriceForFuel;
         }
 
     }
@@ -143,13 +147,13 @@ namespace Transporter6
         public Gasoline()
         {
             Name="Benzin";
-            Truck = new Truck
+            SuitableTruck = new Truck
             {
-                Type = "Tanklaster"
+                Type = TruckType.TruckTypeTanker
             };
-            MaxWeight = 10;
-            MaxDay = 28;
-            MinPrice = 80;
+            MaxWeight = ConfigParameter.ConstMaxWeightForGasoline;
+            MaxDay = ConfigParameter.ConstMaxDayForGasoline;
+            MinPrice = ConfigParameter.ConstMinPriceForGasoline;
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Transporter6
 
                 company.ListOfOwnTrucks.Add(truck);
 
-                Console.WriteLine($"Sie kauften den {truck.Type} für {truck.Price} EUR");
+                Console.WriteLine($"Sie kauften den {truck.TypeOnConsole} für {truck.Price} EUR");
 
                 listOfTrucks.RemoveAt(chooseOfCompany - 1);
 

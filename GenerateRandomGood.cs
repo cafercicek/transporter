@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
+
 
 namespace Transporter6
 {
@@ -10,7 +8,7 @@ namespace Transporter6
         public List<Goods> GenerateRandomGoods()
         {
             var listOfGoods = new List<Goods>();
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < ConfigParameter.GoodsGenerateNumber; i++)
             {
                 listOfGoods.Add(new CreateAGood().GenerateRandomGood());
             }

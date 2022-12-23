@@ -9,6 +9,13 @@ namespace Transporter6
         [Fact]
         public void CheckTestDate()
         {
+            
+            //var writer = new StringWriter();        
+            //Console.SetOut(writer); 
+
+            //var textReader = new StringReader("4");
+            //Console.SetIn(textReader);
+
             //ich habe nicht geschaft, wie man "4" eingeben kann. :(
             var dateTimeNow = DateTime.Now;
             var expectedPlayGame = dateTimeNow.AddDays(1); 

@@ -1,0 +1,44 @@
+﻿
+US1 – LKW Bewegen
+Als Firmengründer möchte ich einen LKW zu einer Stadt senden, damit ich Auftragen erledigen kann. 
+Dafür möchte ich eine neue Menüoption.
+
+Akzeptanzkriterien:
+• Ein LKW sollte gewählt werden.
+• Der gewählte LKW sollte nicht unterwegs sein.
+• Die Städte werden tabellarisch angezeigt.
+• Eine Stadt kann gewählt werden.
+• Die gewählte Stadt sollte keine Stadt sein, wo der LKW  aktuelle ist.
+• Weg zwischen zwei Städte sollte aus der Vogelperspektive berechnet werden.
+• Der Fahrer darf maximal 8 Stunden am Tag fahren.
+• Die Fahrdauer als Tag wird berechnet. 
+• Die Durchschnittsgeschwindigkeit hangt von den Fahrer ab.
+• Jede Fahrer hat Geschwindigkeitfaktor.
+• Durchschnitt Geschwindigkeit von einem LKW wird zuerst 70 km pro Stunde berechnet.
+• Die Beladung hat eine Auswirkung auf die Geschwindigkeit.
+• Pro Tonne  wird 7.5 kW Leistung für 70 km pro Stunde benötigt.
+• Wenn die Leistung der transportierten Waren die Leistung des Fahrzeugs übersteigt, wird der LKW langsamer.
+• Neue Durchschnitt Geschwindigkeit = Durchschnitt Geschwindigkeit * Leistunng von LKW  /  Leistung der transportierten Waren.
+• Die Fahrdauer als Tag = Weg zwischen zwei Städte in KM  / ( Maximale Stunden pro Tag * Neue Durchschnitt Geschwindigkeit.
+• Die Fahrdauer als Tag sollte in der Tabelle von den LKW hinzugefügt werden.
+
+ Geschwindigkeitfaktor
+ {Rennfahrer ,1.3},
+ {Verträumt ,0.7},
+ {Liebt seinen Job, 1.1},
+ {Unauffällig ,1.0}
+
+############################################################################
+
+US2 – Info fur erreichnden LKW
+Als Firmengründer möchte ich wissen, dass der LKW, der unterwegs ist, ziel angekommen ist.
+
+Akzeptanzkriterien:
+• Jede Runde nimmt die Fahrdauer um einen Tag ab.
+• Kosten fur den Benzinverbrauch wird berechnet.
+• Kosten fur den Benzinverbrauch = Faktor von Fahrer * Weg zwischen zwei Städte in KM  * Verbrauch in Liter pro 100 km von LKW / 100
+• Der Benzinverbrauch von Rennfahrer ist hoherer als anderen. Mal "1.2".
+• Kosten fur den Benzinverbrauch wird vom Kontostand abgezogen, wenn der LKW ziel angekommen war.
+• Wenn LKW ziel erreicht wurde, gib Info auf Konsole.
+
+############################################################################

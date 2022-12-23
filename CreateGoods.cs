@@ -51,7 +51,8 @@ namespace Transporter6
 
         private static void SetFineOfGood(Goods currentGood)
         {
-            currentGood.Fine = new GenerateRandomNumber().GetNumberBetween(50, 200) * currentGood.Payment * 0.01;
+            currentGood.Fine = new GenerateRandomNumber().GetNumberBetween( ConfigParameter.BeginRandomNumberForFine ,
+                ConfigParameter.FinishRandomNumberForFine ) * currentGood.Payment * ConfigParameter.PercentNumberForFine ;
         }
 
         private static void SetPaymentOfGood(Goods currentGood)

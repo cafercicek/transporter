@@ -4,6 +4,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <StartupObject>Transporter6.Program</StartupObject>
+        <RootNamespace>Transporter6</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
